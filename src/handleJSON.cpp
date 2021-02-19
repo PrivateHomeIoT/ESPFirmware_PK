@@ -13,7 +13,8 @@ void loadData(){
     EEPROM.get(0 + sizeof(ssid), password);
     char ok[2 + 1];
     EEPROM.get(0 + sizeof(ssid) + sizeof(password), myHostname);
-    EEPROM.get(0 + sizeof(ssid) + sizeof(password) + sizeof(myHostname), ok);
+    EEPROM.get(0 + sizeof(ssid) + sizeof(password) + sizeof(myHostname), mqtt_server);
+    EEPROM.get(0 + sizeof(ssid) + sizeof(password) + sizeof(myHostname) + sizeof(mqtt_server));
     EEPROM.end();
     if (String(ok) != String("OK"))
     {
@@ -21,6 +22,7 @@ void loadData(){
         password[0] = 0;
         myHostname = "privateHomeIoT-Device";
         firstBoot = true;
+        mqtt_server = ""
     }
     Serial.println("Recovered credentials:");
     Serial.println(ssid);

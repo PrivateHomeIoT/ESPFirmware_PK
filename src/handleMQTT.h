@@ -5,6 +5,7 @@
 #include <Arduino.h>
 
 extern PubSubClient client;
+extern char* mqtt_server;
 
 void loopMQTT();
 void setupMQTT();

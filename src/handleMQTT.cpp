@@ -1,7 +1,7 @@
 #include "handleMQTT.h"
 #include "handleWifi.h"
 
-char* mqtt_server = (char*) "private.local";
+char* mqtt_server = (char*) "192.168.178.136";
 int mqtt_port = 1500;
 char* msg;
 PubSubClient client(espClient);

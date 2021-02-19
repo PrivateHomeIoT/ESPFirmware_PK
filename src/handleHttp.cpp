@@ -5,6 +5,7 @@
 #include "handleHttp.h"
 #include "handleWifi.h"
 #include "handleJSON.h"
+#include "handleMQTT.h"
 
 ESP8266WebServer server(80);
 IPAddress serverIP(0,0,0,0);
@@ -171,6 +172,7 @@ void handleWifiSave(){
   saveData();
   connect = strlen(ssid) > 0; // Request WLAN connect with new credentials if there is a SSID
   connectWifi();
+  setupMQTT();
 }
 
 void handleNotFound(){
