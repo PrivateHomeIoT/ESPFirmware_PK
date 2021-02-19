@@ -170,6 +170,7 @@ void handleWifiSave(){
   server.client().stop();             // Stop is needed because we sent no content length
   saveData();
   connect = strlen(ssid) > 0; // Request WLAN connect with new credentials if there is a SSID
+  connectWifi();
 }
 
 void handleNotFound(){

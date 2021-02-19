@@ -16,7 +16,7 @@ char ssid[33] = "";
 char password[65] = "";
 WiFiClient espClient;
 DNSServer dnsServer;
-IPAddress apIP(172, 217, 28, 1);
+IPAddress apIP(192, 168, 1, 1);
 IPAddress netMsk(255, 255, 255, 0);
 
 const char *softAP_ssid = APSSID;
@@ -38,17 +38,20 @@ void connectWifi()
 }
 void wifiSetup()
 {
-    Serial.println("Configuring access point...");
-    WiFi.softAPConfig(apIP, apIP, netMsk);
-    WiFi.softAP(softAP_ssid, softAP_password);
-    delay(500); // Without delay I've seen the IP address blank
-    Serial.print("AP IP address: ");
-    Serial.println(WiFi.softAPIP());
-    /* Setup the DNS server redirecting all the domains to the apIP */
-    dnsServer.setErrorReplyCode(DNSReplyCode::NoError);
-    dnsServer.start(DNS_PORT, "*", apIP);
-    loadData(); // Load WLAN credentials from network
-    connect = strlen(ssid) > 0;
+    if (ssid == ""){
+        Serial.println("Configuring access point...");
+        WiFi.softAPConfig(apIP, apIP, netMsk);
+        WiFi.softAP(softAP_ssid, softAP_password);
+        delay(500); // Without delay I've seen the IP address blank
+        Serial.print("AP IP address: ");
+        Serial.println(WiFi.softAPIP());
+        /* Setup the DNS server redirecting all the domains to the apIP */
+        dnsServer.setErrorReplyCode(DNSReplyCode::NoError);
+        dnsServer.start(DNS_PORT, "*", apIP);
+        loadData(); // Load WLAN credentials from network
+        connect = strlen(ssid) > 0;
+    }
+    else connectWifi();
 }
 void wifiLoop(){
     if (connect)
