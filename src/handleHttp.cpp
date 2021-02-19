@@ -5,7 +5,6 @@
 #include "handleHttp.h"
 #include "handleWifi.h"
 #include "handleJSON.h"
-#include "handleEncryption.h"
 
 ESP8266WebServer server(80);
 IPAddress serverIP(0,0,0,0);
@@ -146,8 +145,7 @@ void handleWifi(){
       "<input type='text' placeholder='network' name='n'/>"
       "<br /><input type='password' placeholder='password' name='p'/>"
       "<br /><input type='text' placeholder='IP adress of the PrivateHome-server' name='s'/>"
-      "<br /><input type='text' placeholder='encryption key' name='k'/>"
-      "<br /><input type='text' placeholder='IV' name='iv'/>"
+      "<br /><input type='text' placeholder='Device ID' name='id'/>"
       "<br /><input type='submit' value='Connect/Disconnect'/></form>"
       "<p>You may want to <a href='/'>return to the home page</a>.</p>"
       "</body></html>");
@@ -165,8 +163,9 @@ void handleWifiSave(){
   serverIP.fromString(server.arg("s"));
   server.arg('k').toCharArray(key, sizeof(key) - 1);
   server.arg('iv').toCharArray(iv, sizeof(iv) - 1);
-  for(int i = 0; i< sizeof(key); i++){ aes_key[i] = byte(key[i]);}
-  for(int i = 0; i< sizeof(iv); i++){ aes_iv[i] = byte(iv[i]);}
+  char* hostname;
+  server.arg('id').toCharArray(hostname, sizeof(hostname)-1);
+  myHostname = hostname;
   server.sendHeader("Location", "wifi", true);
   server.sendHeader("Cache-Control", "no-cache, no-store, must-revalidate");
   server.sendHeader("Pragma", "no-cache");

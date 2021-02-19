@@ -1,6 +1,5 @@
 #include "handleMQTT.h"
 #include "handleWifi.h"
-#include "handleEncryption.h"
 #include "handlePorts.h"
 
 char* mqtt_server = (char*) "private.local";
@@ -16,8 +15,8 @@ void connectMQTT() {
     if (client.connect(myHostname)) {
       Serial.println("connected");
       // Once connected, publish an announcement
-      client.publish(encrypt((char*)((String)myHostname + "/status").c_str()), encrypt((char*)"online"));
-      client.subscribe(encrypt((char*)myHostname));
+      client.publish((char*)((String)myHostname + "/status").c_str(), "online");
+      client.subscribe((char*)myHostname);
 
     } else {
       Serial.print("failed, rc=");
@@ -37,9 +36,10 @@ void callback(char* topic, byte* payload, unsigned int length) {
     Serial.print((char)payload[i]);
   }
   Serial.println();
-  msg = decrypt((char*)(payload));
-  topic = decrypt(topic);
-  client.publish(encrypt(topic), encrypt(handlePort(msg, topic)));
+  if (topic == (char*)((String)myHostname + "/").c_str()){
+      if (msg == "1") digitalWrite(D2, HIGH);
+      else if (msg == "0") digitalWrite(D2, HIGH);
+      }
 }
 
 void loopMQTT() {
@@ -51,5 +51,5 @@ void setupMQTT(){
     client.setServer(mqtt_server, mqtt_port);
     client.setCallback(callback);
     connectMQTT();
-    client.publish(encrypt((char*)((String)myHostname + "/config").c_str()), myHostname);
+    client.publish((char*)((String)myHostname + "/config").c_str(), myHostname);
 }
