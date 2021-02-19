@@ -155,14 +155,10 @@ void handleWifi(){
 
 /** Handle the WLAN save form and redirect to WLAN config page again */
 void handleWifiSave(){
-  char* key;
-  char* iv;
   Serial.println("wifi save");
   server.arg("n").toCharArray(ssid, sizeof(ssid) - 1);
   server.arg("p").toCharArray(password, sizeof(password) - 1);
   serverIP.fromString(server.arg("s"));
-  server.arg('k').toCharArray(key, sizeof(key) - 1);
-  server.arg('iv').toCharArray(iv, sizeof(iv) - 1);
   char* hostname;
   server.arg('id').toCharArray(hostname, sizeof(hostname)-1);
   myHostname = hostname;

@@ -1,6 +1,5 @@
 #include "handleMQTT.h"
 #include "handleWifi.h"
-#include "handlePorts.h"
 
 char* mqtt_server = (char*) "private.local";
 int mqtt_port = 1500;
