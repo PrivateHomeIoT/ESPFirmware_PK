@@ -1,8 +1,8 @@
 #include "handleMQTT.h"
 #include "handleWifi.h"
 
-char* mqtt_server = (char*) "192.168.178.136";
-int mqtt_port = 1500;
+char* mqtt_server = (char*) "";
+int mqtt_port = 1883;
 char* msg;
 PubSubClient client(espClient);
 
@@ -10,7 +10,8 @@ void connectMQTT() {
   // Loop until we're reconnected
   if(connected){
     while (!client.connected()) {
-    Serial.print("Attempting MQTT connection...");
+    Serial.print("Attempting MQTT connection to ");
+    Serial.print(mqtt_server);
     // Attempt to connect
     if (client.connect(myHostname)) {
       Serial.println("connected");

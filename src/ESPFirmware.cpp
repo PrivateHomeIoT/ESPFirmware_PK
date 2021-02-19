@@ -1,6 +1,7 @@
 #include "handleWifi.h"
 #include "handleHttp.h"
 #include "handleJSON.h"
+#include "handleMQTT.h"
 
 void setup(){
     delay(1000);
@@ -14,4 +15,5 @@ void setup(){
 
 void loop(){
     wifiLoop();
+    loopMQTT();
 }
