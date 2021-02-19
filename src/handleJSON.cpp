@@ -26,6 +26,7 @@ void loadData(){
     Serial.println(ssid);
     Serial.println(strlen(password) > 0 ? "********" : "<no password>");
     Serial.println("Finished loading data");
+    setupMQTT();
 }
 
 void saveData(){
@@ -38,5 +39,6 @@ void saveData(){
     EEPROM.put(0 + sizeof(ssid) + sizeof(password) + sizeof(myHostname) + sizeof(mqtt_server),ok);
     EEPROM.commit();
     EEPROM.end();
-    Serial.println("Saved wifi credentials");
+    Serial.println("Saved wifi credentials and other information");
+    ESP.restart();
 }
