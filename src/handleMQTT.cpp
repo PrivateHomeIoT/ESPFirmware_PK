@@ -8,7 +8,8 @@ PubSubClient client(espClient);
 
 void connectMQTT() {
   // Loop until we're reconnected
-  while (!client.connected()) {
+  if(connected){
+    while (!client.connected()) {
     Serial.print("Attempting MQTT connection...");
     // Attempt to connect
     if (client.connect(myHostname)) {
@@ -24,6 +25,7 @@ void connectMQTT() {
       // Wait 5 seconds before retrying
       delay(5000);
     }
+  }
   }
 }
 

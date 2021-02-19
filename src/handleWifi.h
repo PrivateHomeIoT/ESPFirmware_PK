@@ -12,6 +12,7 @@ extern const char *softAP_password;
 extern const char *myHostname;
 extern bool firstBoot;
 extern boolean connect;
+extern boolean connected;
 
 extern IPAddress apIP;   
 extern IPAddress netMsk;

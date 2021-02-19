@@ -26,6 +26,7 @@ const byte DNS_PORT = 53;
 unsigned long lastConnectTry = 0;
 bool firstBoot = false;
 boolean connect;
+boolean connected;
 
 void connectWifi()
 {
@@ -35,6 +36,7 @@ void connectWifi()
     int connRes = WiFi.waitForConnectResult();
     Serial.print("connRes: ");
     Serial.println(connRes);
+    if(connRes == 3) connected = true;
 }
 void wifiSetup()
 {
