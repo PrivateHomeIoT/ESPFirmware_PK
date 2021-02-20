@@ -9,7 +9,7 @@ extern char ssid[33];
 extern char password[65];
 extern const char *softAP_ssid;
 extern const char *softAP_password;
-extern const char *myHostname;
+extern char myHostname[16];
 extern bool firstBoot;
 extern boolean connect;
 extern boolean connected;

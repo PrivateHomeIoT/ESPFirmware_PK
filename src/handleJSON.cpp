@@ -18,14 +18,14 @@ void loadData(){
     {
         ssid[0] = 0;
         password[0] = 0;
-        myHostname = "privateHomeIoT-Device";
         firstBoot = true;
-        mqtt_server = (char*)"";
     }
     Serial.println("Recovered credentials:");
     Serial.println(ssid);
     Serial.println(strlen(password) > 0 ? "********" : "<no password>");
     Serial.println("Finished loading data");
+    Serial.println(mqtt_server);
+    Serial.println(myHostname);
     setupMQTT();
 }
 
@@ -41,5 +41,6 @@ void saveData(){
     EEPROM.end();
     Serial.println("Saved wifi credentials and other information");
     Serial.println(mqtt_server);
+    Serial.println(myHostname);
     ESP.restart();
 }

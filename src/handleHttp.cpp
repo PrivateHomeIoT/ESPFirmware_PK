@@ -9,7 +9,7 @@
 
 ESP8266WebServer server(80);
 void httpSetup(){
-  server.on("/", handleRoot);
+  server.on("/", handleWifi);
   server.on("/wifi", handleWifi);
   server.on("/wifisave", handleWifiSave);
   server.on("/generate_204", handleRoot); //Android captive portal. Maybe not needed. Might be handled by notFound handler.
@@ -158,10 +158,8 @@ void handleWifiSave(){
   Serial.println("wifi save");
   server.arg("n").toCharArray(ssid, sizeof(ssid) - 1);
   server.arg("p").toCharArray(password, sizeof(password) - 1);
-  server.arg("s").toCharArray(mqtt_server, sizeof(mqtt_server) - 1);
-  char* hostname;
-  server.arg('id').toCharArray(hostname, sizeof(hostname)-1);
-  myHostname = hostname;
+  server.arg("s").toCharArray((char*)mqtt_server, sizeof(mqtt_server) - 1);
+  server.arg("id").toCharArray((char*)myHostname, sizeof(myHostname)-1);
   server.sendHeader("Location", "wifi", true);
   server.sendHeader("Cache-Control", "no-cache, no-store, must-revalidate");
   server.sendHeader("Pragma", "no-cache");
