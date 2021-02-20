@@ -40,5 +40,6 @@ void saveData(){
     EEPROM.commit();
     EEPROM.end();
     Serial.println("Saved wifi credentials and other information");
+    Serial.println(mqtt_server);
     ESP.restart();
 }

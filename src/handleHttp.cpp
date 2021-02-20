@@ -8,7 +8,6 @@
 #include "handleMQTT.h"
 
 ESP8266WebServer server(80);
-IPAddress serverIP(0,0,0,0);
 void httpSetup(){
   server.on("/", handleRoot);
   server.on("/wifi", handleWifi);
@@ -159,7 +158,7 @@ void handleWifiSave(){
   Serial.println("wifi save");
   server.arg("n").toCharArray(ssid, sizeof(ssid) - 1);
   server.arg("p").toCharArray(password, sizeof(password) - 1);
-  serverIP.fromString(server.arg("s"));
+  server.arg("s").toCharArray(mqtt_server, sizeof(mqtt_server) - 1);
   char* hostname;
   server.arg('id').toCharArray(hostname, sizeof(hostname)-1);
   myHostname = hostname;

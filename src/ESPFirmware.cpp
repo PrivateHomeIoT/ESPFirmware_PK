@@ -14,6 +14,7 @@ void setup(){
 }
 
 void loop(){
+    delay(100);
     wifiLoop();
     loopMQTT();
 }
