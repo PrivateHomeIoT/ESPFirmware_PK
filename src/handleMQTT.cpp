@@ -17,11 +17,10 @@ void connectMQTT() {
       Serial.println("connected");
       // Once connected, publish an announcement
       client.publish((char*)((String)myHostname + "/status").c_str(), "online");
-      client.publish((char*)((String)myHostname + "/command").c_str(), "on");
-      client.publish((char*)((String)myHostname + "/command").c_str(), "off");
+      client.publish((char*)("Home/stat/" + (String)myHostname).c_str(), "1.0");
       client.subscribe(((char*)((String)myHostname + "/").c_str()));
       client.subscribe(((char*)((String)myHostname + "/config").c_str()));
-      client.subscribe(((char*)((String)myHostname + "/command").c_str()));
+      client.subscribe((char*)("Home/switch/cmnd/" + (String)myHostname).c_str());
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -42,12 +41,23 @@ void callback(char* topic, byte* payload, unsigned int length) {
     Serial.print((char)payload[i]);
     msg[i]=(char)payload[i];
   }
-  Serial.println("  " + (String)myHostname + "/command");
+  Serial.println();
   if (strcmp(topic, (char*)("Home/switch/cmnd/" + (String)myHostname).c_str()) == 0){
       Serial.println(msg);
-      if (strcmp(msg, (char*)"1.0") == 0) digitalWrite(LED_BUILTIN, HIGH);
-      else if (strcmp(msg, (char*)"0.0") == 0) digitalWrite(LED_BUILTIN, LOW);
-      }
+      if (strcmp(msg, (char*)"1.0") == 0){
+        digitalWrite(LED_BUILTIN, LOW);
+        client.publish((char*)("Home/stat/" + (String)myHostname).c_str(), "ON");
+      } else if (strcmp(msg, (char*)"0.0") == 0){
+        digitalWrite(LED_BUILTIN, HIGH);
+        client.publish((char*)("Home/stat/" + (String)myHostname).c_str(), "OFF");
+      } else if (strcmp(msg, (char*)"ON") == 0){
+        digitalWrite(LED_BUILTIN, LOW);
+        client.publish((char*)("Home/stat/" + (String)myHostname).c_str(), "ON");
+      } else if (strcmp(msg, (char*)"OFF") == 0){
+        digitalWrite(LED_BUILTIN, HIGH);
+        client.publish((char*)("Home/stat/" + (String)myHostname).c_str(), "OFF");
+      } 
+    }
 }
 
 void loopMQTT() {
